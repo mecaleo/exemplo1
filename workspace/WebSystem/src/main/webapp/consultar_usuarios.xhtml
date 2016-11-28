@@ -24,11 +24,9 @@
 		</f:facet>
 
 		<h:form id="form_pesquisa">
-			<h:panelGrid columns="3">
-				<p:inputText placeholder="Pesquisar por nome" style="width:350px"
+			<h:panelGrid columns="2">
+				<p:inputText styleClass="tam-300" placeholder="Pesquisar por nome"
 					value="#{usuarioBean.consulta}" />
-
-				<p:spacer width="5px" />
 
 				<p:commandButton value="Pesquisar" icon="ui-icon-search"
 					actionListener="#{usuarioBean.listar()}" update="tabela-usuarios" />
@@ -58,8 +56,18 @@
 				</p:column>
 
 				<p:column headerText="Ações" style="width:70px;text-align:center;">
-					<p:commandLink id="editar-usuario"
-						onclick="PF('wid_edicao').show();"
+
+					<!-- tool tips dos ícones -->
+					
+					<p:tooltip for="editar-usuario" value="Editar" showEffect="clip"
+						hideEffect="clip" position="bottom" />
+
+					<p:tooltip for="excluir-usuario" value="Excluir" showEffect="clip"
+						hideEffect="clip" position="bottom" />
+					
+					<!-- Fim dos tooltips -->
+						
+					<p:commandLink id="editar-usuario" onclick="PF('wid_edicao').show();"
 						update=":form_edicao:panel_editar" icon="fa fa-pencil">
 						<i class="material-icons">mode_edit</i>
 						<f:setPropertyActionListener value="#{us}"
@@ -78,6 +86,8 @@
 				</p:column>
 
 			</p:dataTable>
+
+
 		</h:form>
 	</p:panel>
 
@@ -113,7 +123,7 @@
 			</h:panelGrid>
 
 			<hr />
-			<p:commandButton value="Salvar" styleClass="botao-azul mg-top-5"
+			<p:commandButton value="Salvar" styleClass="mg-top-5"
 				action="#{usuarioBean.salvar}"
 				oncomplete="PF('wid-inclusao').hide();"
 				update=":form_pesquisa:tabela-usuarios :form-inclusao" />
@@ -150,14 +160,14 @@
 				</p:calendar>
 
 			</h:panelGrid>
-			
+
 			<p:separator />
-			
-			<p:commandButton styleClass="mg-top-5" value="Editar"
+
+			<p:commandButton styleClass="mg-top-5" value="Atualizar"
 				action="#{usuarioBean.atualizar()}"
 				oncomplete="PF('wid_edicao').hide();"
 				update=":form_pesquisa:tabela-usuarios" />
-				
+
 		</p:dialog>
 	</h:form>
 
@@ -174,9 +184,11 @@
 				<p:commandButton value="Sim" actionListener="#{usuarioBean.excluir}"
 					oncomplete="PF('dl_exclusao').hide();"
 					update=":form_pesquisa:tabela-usuarios" />
-				<p:commandButton value="Não" />
+				<p:commandButton value="Não" oncomplete="PF('dl_exclusao').hide();" />
 			</h:panelGrid>
 		</p:dialog>
 	</h:form>
+
+
 </h:body>
 </html>

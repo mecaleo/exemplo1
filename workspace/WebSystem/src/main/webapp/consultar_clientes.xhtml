@@ -30,9 +30,7 @@
 			<h:panelGrid columns="3">
 				<p:inputText styleClass="tam-300" placeholder="Pesquisar por Nome"
 					value="#{clienteBean.consulta}" />
-
-				<p:spacer width="2px" />
-
+				
 				<p:commandButton value="Pesquisar" update="tabela-clientes"
 					actionListener="#{clienteBean.listar()}" icon="ui-icon-search" />
 			</h:panelGrid>
