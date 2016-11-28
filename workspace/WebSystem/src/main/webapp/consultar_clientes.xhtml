@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Clientes</title>
+
+</h:head>
+<h:body>
+	<ui:include src="menu.xhtml" />
+
+	<p:messages closable="true" autoUpdate="true"
+		style="width:98%;margin:0 auto" />
+
+	<p:panel header="Lista de Clientes" id="cpanel"
+		style="width:95%; margin:20px auto">
+
+		<f:facet name="actions">
+			<p:commandButton style="float:right" value="Novo Cliente"
+				actionListener="#{clienteBean.novo}"
+				onclick="PF('wid-salvar-editar').show();"
+				update=":form-salvar-editar" icon="fa fa-plus" />
+		</f:facet>
+
+		<h:form id="form-con-cliente">
+			<h:panelGrid columns="3">
+				<p:inputText styleClass="tam-300" placeholder="Pesquisar por Nome"
+					value="#{clienteBean.consulta}" />
+
+				<p:spacer width="2px" />
+
+				<p:commandButton value="Pesquisar" update="tabela-clientes"
+					actionListener="#{clienteBean.listar()}" icon="ui-icon-search" />
+			</h:panelGrid>
+
+			<p:spacer height="15px" />
+
+			<p:dataTable id="tabela-clientes" value="#{clienteBean.listar()}"
+				var="c" reflow="true" emptyMessage="Nenhum produto encontrado!"
+				paginator="true" rows="5" paginatorPosition="bottom">
+
+				<p:column headerText="Nome" width="300">
+					<p:outputLabel value="#{c.nome}" />
+				</p:column>
+
+				<p:column headerText="Endereço" width="300">
+					<p:outputLabel value="#{c.endereco}" />
+				</p:column>
+
+				<p:column headerText="CPF">
+					<p:outputLabel value="#{c.cpf}" />
+				</p:column>
+
+				<p:column headerText="Celular">
+					<p:outputLabel value="#{c.celular}" />
+				</p:column>
+
+				<p:column headerText="Ações" width="70" style="text-align:center">
+					<p:commandLink onclick="PF('wid-salvar-editar').show();"
+						update=":form-salvar-editar">
+
+						<i class="material-icons">mode_edit</i>
+
+						<f:setPropertyActionListener value="#{c}"
+							target="#{clienteBean.cliente}" />
+					</p:commandLink>
+
+					<p:commandLink onclick="PF('wid-exclusao').show();"
+						update=":form-exclusao">
+						<i class="material-icons margin-left-10 red">delete_forever</i>
+						<f:setPropertyActionListener value="#{c}"
+							target="#{clienteBean.cliente}" />
+					</p:commandLink>
+				</p:column>
+			</p:dataTable>
+
+		</h:form>
+	</p:panel>
+
+	<!-- Diálogo de edição e inclusão -->
+	<p:dialog header="Salvar Dados" id="dlg-salvar-editar"
+		widgetVar="wid-salvar-editar" showEffect="clip" hideEffect="clip"
+		modal="true" draggable="false">
+		<h:form id="form-salvar-editar">
+			<h:panelGrid columns="1" cellpadding="0">
+
+				<p:outputLabel value="Nome:" />
+				<p:inputText size="55" required="true"
+					requiredMessage="O campo 'Nome' é obrigatório!"
+					value="#{clienteBean.cliente.nome}" />
+
+				<p:outputLabel value="Endereço:" />
+				<p:inputText size="55" value="#{clienteBean.cliente.endereco}" />
+
+				<p:outputLabel value="Nº:" />
+				<p:inputText size="7" value="#{clienteBean.cliente.numero}" />
+
+				<p:outputLabel value="Bairro:" />
+				<p:inputText size="30" value="#{clienteBean.cliente.bairro}" />
+
+				<p:outputLabel value="CPF:" />
+				<p:inputMask size="30" mask="999.999.999-99"
+					value="#{clienteBean.cliente.cpf}" />
+
+				<p:outputLabel value="Celular:" />
+				<p:inputMask mask="(99)9 9999-9999" required="true"
+					requiredMessage="O campo 'Celular' é obrigatório!"
+					value="#{clienteBean.cliente.celular}" />
+
+			</h:panelGrid>
+
+			<p:separator />
+
+			<p:commandButton value="Salvar" style="margin-top:10px"
+				actionListener="#{clienteBean.salvar}"
+				oncomplete="PF('wid-salvar-editar').hide();"
+				update=":form-con-cliente:tabela-clientes" />
+		</h:form>
+	</p:dialog>
+
+	<!-- Diálogo de exclusão -->
+
+	<p:dialog header="Excluir Usuário" widgetVar="wid-exclusao"
+		showEffect="clip" hideEffect="clip" modal="true">
+		<h:form id="form-exclusao">
+			<h:panelGrid>
+				<p:outputLabel
+					value="Deseja realmente excluir o cliente '#{clienteBean.cliente.nome}'?" />
+
+			</h:panelGrid>
+			
+			<h:panelGrid columns="2">
+				<p:commandButton value="Sim" actionListener="#{clienteBean.excluir}"
+					oncomplete="PF('wid-exclusao').hide();"
+					update=":form-con-cliente:tabela-clientes" />
+				<p:commandButton value="Não" oncomplete="PF('wid-exclusao').hide();" />
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+
+</h:body>
+</html>

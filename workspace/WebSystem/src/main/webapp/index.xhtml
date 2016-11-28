@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Web Vendas</title>
+	<style>
+		#form-login {
+			width:340px;
+			margin:130px auto;
+			padding:40px;
+			box-shadow:0px 1px 8px 5px #CCC;
+		}
+	</style>
+</h:head>
+<h:body>
+
+	<h:form id="form-login">
+		<center>
+			<h:graphicImage library="img" name="brand-unicatolica.png" />
+			<br /> <br />
+
+			<p:messages closable="true" autoUpdate="true" />
+			
+			<h:panelGrid columns="1">
+
+				<p:outputLabel value="Usuário" />
+				<p:inputText value="#{loginBean.usuario.nomeUsuario}" />
+
+				<p:outputLabel value="Senha" />
+				<p:password value="#{loginBean.usuario.senha}" style="margin-bottom:5px"/>
+
+				<p:commandButton value="Entrar" id="bt-entrar"
+					action="#{loginBean.autenticar}" />
+
+			</h:panelGrid>
+		</center>
+	</h:form>
+</h:body>
+</html>

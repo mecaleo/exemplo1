@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Usuários</title>
+
+</h:head>
+<h:body>
+	<ui:include src="menu.xhtml" />
+
+	<p:messages closable="true" autoUpdate="true"
+		style="width:98%;margin:0 auto" />
+
+	<p:panel header="Lista de Usuários" style="margin:20px auto; width:95%">
+
+		<f:facet name="actions">
+			<p:commandButton value="Novo Usuário" style="float:right"
+				onclick="PF('wid-inclusao').show();" icon="fa fa-plus" />
+		</f:facet>
+
+		<h:form id="form_pesquisa">
+			<h:panelGrid columns="3">
+				<p:inputText placeholder="Pesquisar por nome" style="width:350px"
+					value="#{usuarioBean.consulta}" />
+
+				<p:spacer width="5px" />
+
+				<p:commandButton value="Pesquisar" icon="ui-icon-search"
+					actionListener="#{usuarioBean.listar()}" update="tabela-usuarios" />
+			</h:panelGrid>
+
+			<p:dataTable id="tabela-usuarios" value="#{usuarioBean.listar()}"
+				style="margin-top:10px" var="us"
+				emptyMessage="Nenhum usuário encontrado." reflow="true"
+				paginator="true" rows="5" paginatorPosition="bottom">
+
+				<p:column headerText="Nome do Usuário">
+					<p:outputLabel value="#{us.nomeUsuario}" />
+				</p:column>
+
+				<p:column headerText="Nome Completo">
+					<p:outputLabel value="#{us.nomeCompleto}" />
+				</p:column>
+
+				<p:column headerText="Email">
+					<p:outputLabel value="#{us.email}" />
+				</p:column>
+
+				<p:column headerText="Data de Nascimento">
+					<p:outputLabel value="#{us.dataNascimento}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</p:outputLabel>
+				</p:column>
+
+				<p:column headerText="Ações" style="width:70px;text-align:center;">
+					<p:commandLink id="editar-usuario"
+						onclick="PF('wid_edicao').show();"
+						update=":form_edicao:panel_editar" icon="fa fa-pencil">
+						<i class="material-icons">mode_edit</i>
+						<f:setPropertyActionListener value="#{us}"
+							target="#{usuarioBean.usuario}" />
+					</p:commandLink>
+
+					<p:commandLink id="excluir-usuario"
+						onclick="PF('dl_exclusao').show();"
+						update=":form_exclusao:panel_exclusao">
+						<i class="material-icons red margin-left-10">delete_forever</i>
+						<f:setPropertyActionListener value="#{us}"
+							target="#{usuarioBean.usuario}" />
+
+					</p:commandLink>
+
+				</p:column>
+
+			</p:dataTable>
+		</h:form>
+	</p:panel>
+
+	<!-- Diálogo de inclusao dos dados -->
+	<p:dialog header="Cadastrar Usuário" widgetVar="wid-inclusao"
+		draggable="false" resizable="false" modal="true" showEffect="clip"
+		hideEffect="clip">
+
+		<h:form id="form-inclusao">
+			<h:panelGrid columns="2" cellspacing="5px">
+
+				<p:outputLabel value="Nome Completo:" />
+				<p:inputText styleClass="tam-350"
+					value="#{usuarioBean.usuario.nomeCompleto}" />
+
+				<p:outputLabel value="Email:" />
+				<p:inputText styleClass="tam-300"
+					value="#{usuarioBean.usuario.email}" />
+
+				<p:outputLabel value="Nome do Usuário:" />
+				<p:inputText size="25" value="#{usuarioBean.usuario.nomeUsuario}" />
+
+				<p:outputLabel value="Senha:" />
+				<p:password size="25" value="#{usuarioBean.usuario.senha}"
+					style="margin-bottom:5px" />
+
+				<p:outputLabel value="Data de Nascimento:" />
+				<p:calendar mask="99/99/9999" styleClass="tam-200"
+					pattern="dd/MM/yyyy" value="#{usuarioBean.usuario.dataNascimento}">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+				</p:calendar>
+
+			</h:panelGrid>
+
+			<hr />
+			<p:commandButton value="Salvar" styleClass="botao-azul mg-top-5"
+				action="#{usuarioBean.salvar}"
+				oncomplete="PF('wid-inclusao').hide();"
+				update=":form_pesquisa:tabela-usuarios :form-inclusao" />
+		</h:form>
+	</p:dialog>
+
+	<!-- Diálogo de edição dos dados -->
+	<h:form id="form_edicao">
+
+		<p:dialog id="dl_edicao" widgetVar="wid_edicao"
+			header="Editar Usuário" draggable="false" resizable="false"
+			modal="true" showEffect="clip" hideEffect="clip" width="600">
+
+			<h:panelGrid id="panel_editar" columns="2">
+				<p:outputLabel value="Nome Completo:" />
+				<p:inputText styleClass="tam-350"
+					value="#{usuarioBean.usuario.nomeCompleto}" />
+
+				<p:outputLabel value="Email:" />
+				<p:inputText styleClass="tam-300"
+					value="#{usuarioBean.usuario.email}" />
+
+				<p:outputLabel value="Nome do Usuário:" />
+				<p:inputText size="25" value="#{usuarioBean.usuario.nomeUsuario}" />
+
+				<p:outputLabel value="Senha:" />
+				<p:password size="25" value="#{usuarioBean.usuario.senha}"
+					style="margin-bottom:5px" />
+
+				<p:outputLabel value="Data de Nascimento:" />
+				<p:calendar mask="99/99/9999" styleClass="tam-200"
+					pattern="dd/MM/yyyy" value="#{usuarioBean.usuario.dataNascimento}">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+				</p:calendar>
+
+			</h:panelGrid>
+			
+			<p:separator />
+			
+			<p:commandButton styleClass="mg-top-5" value="Editar"
+				action="#{usuarioBean.atualizar()}"
+				oncomplete="PF('wid_edicao').hide();"
+				update=":form_pesquisa:tabela-usuarios" />
+				
+		</p:dialog>
+	</h:form>
+
+	<!-- Diálogo de exclusão -->
+	<h:form id="form_exclusao">
+		<p:dialog header="Excluir Usuário" widgetVar="dl_exclusao"
+			showEffect="clip" hideEffect="clip" modal="true">
+			<h:panelGrid id="panel_exclusao">
+				<p:outputLabel
+					value="Deseja realmente excluir o usuário '#{usuarioBean.usuario.nomeUsuario}'?" />
+
+			</h:panelGrid>
+			<h:panelGrid columns="2">
+				<p:commandButton value="Sim" actionListener="#{usuarioBean.excluir}"
+					oncomplete="PF('dl_exclusao').hide();"
+					update=":form_pesquisa:tabela-usuarios" />
+				<p:commandButton value="Não" />
+			</h:panelGrid>
+		</p:dialog>
+	</h:form>
+</h:body>
+</html>

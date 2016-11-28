@@ -1,0 +1,180 @@
+@CHARSET "ISO-8859-1";
+
+* {
+	outline: none;
+}
+
+a {
+	text-decoration: none;
+}
+
+.btn-novo {
+	width: 25px;
+	height: 25px;
+	background-image: url("../img/novo.png") !important;
+	padding-bottom: 4px;
+}
+/* BOTÃ•ES E LINKS */
+.botao-azul {
+	background: #c1c1c1 !important;
+	color: #000 !important;
+}
+
+.botao-azul:hover {
+	background: rgba(50, 50, 255, 1) !important;
+	color: #fff !important;
+	transition: none !important;
+}
+
+.botao-confirmacao {
+	background: #fff !important;
+	color: #008000 !important;
+}
+
+.botao-confirmacao:hover {
+	color: #3f5a44 !important;
+	transition: none !important;
+}
+
+.botao-cancelar {
+	background: #fff !important;
+	color: #ef2929 !important;
+}
+
+.botao-cancelar:hover {
+	color: #a40000 !important;
+	transition: none !important;
+}
+
+.botao-link-cancelar {
+	background: transparent !important;
+	color: #333 !important;
+	border: none;
+}
+
+.botao-link-cancelar:hover {
+	color: #fb5e00 !important;
+	transition: none !important;
+}
+
+.botao-voltar {
+	background: #fff !important;
+	color: #333 !important;
+}
+
+.botao-voltar:hover {
+	color: #000 !important;
+	transition: none !important;
+}
+
+.botao-continuar {
+	background: #fff !important;
+	color: #3f5a44 !important;
+	font-weight: bold;
+	border: none !important;
+	border-radius: none !important;
+}
+
+.botao-continuar:hover {
+	background: #d3d7cf !important;
+	transition: none !important;
+}
+
+.botao-fechar {
+	background: #fff !important;
+	color: #FB5E00 !important;
+	font-weight: bold;
+	border: none !important;
+	border-radius: none !important;
+}
+
+.botao-fechar:hover {
+	background: #d3d7cf !important;
+	transition: none !important;
+}
+
+.link-navegacao {
+	float: right;
+	font-weight: normal;
+	color: #427fed !important;
+}
+
+.link-navegacao:hover {
+	text-decoration: underline;
+}
+
+.ui-datatable {
+	font-size: 14px !important;
+}
+
+.margin-left-10 {
+	margin-left: 10px !important;
+}
+
+.tam-60 {
+	width: 60px !important;
+}
+
+.tam-200 {
+	width: 200px !important;
+}
+
+.tam-300 {
+	width: 300px !important;
+}
+
+.tam-350 {
+	width: 350px !important;
+}
+
+.tam-400 {
+	width: 400px !important;
+}
+
+.tam-95p {
+	width: 95% !important;
+	margin: 0 auto !important;
+}
+
+.tam-98p {
+	width: 98% !important;
+	margin: 0 auto !important;
+}
+
+input:disabled {
+	border: 1px solid #777 !important;
+}
+
+.mg-top-5 {
+	margin-top: 5px !important;
+}
+
+.mg-top-20 {
+	margin-top: 20px !important;
+}
+
+body {
+	background-color: #FFF !important;
+}
+
+.menu-azul {
+	background-color: rgba(35, 153, 229, 0.9) !important;
+}
+
+.menu-font-color a {
+	color: #FFF !important;
+}
+
+.submenu-font-color {
+	color:#000 !important;
+}
+.block {
+	display:block;
+}
+
+
+
+
+
+
+

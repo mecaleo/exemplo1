@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Fornecedores - WebSystem</title>
+
+</h:head>
+<h:body>
+
+	<ui:include src="menu.xhtml" />
+
+	<p:messages autoUpdate="true" closable="true"
+		style="width:99%; margin:0 auto" />
+
+	<p:panel header="Lista de Forncedores"
+		style="width:95%; margin: 20px auto">
+
+		<f:facet name="actions">
+			<p:commandButton value="Novo Fornecedor" icon="fa fa-plus"
+				style="float:right" onclick="PF('wid-inclusao-edicao').show();"
+				actionListener="#{fornecedorBean.novo}"
+				update=":form-inclusao-edicao">
+			</p:commandButton>
+		</f:facet>
+
+		<h:form id="pesquisar">
+			<h:panelGrid columns="2">
+
+				<p:inputText style="width:350px;margin-right:5px"
+					placeholder="Pesquisar por nome fantasia"
+					value="#{fornecedorBean.consulta}" />
+
+				<p:commandButton value="Pesquisar"
+					actionListener="#{fornecedorBean.pesquisar}"
+					update=":tabela-fornecedores" icon="ui-icon-search" />
+
+			</h:panelGrid>
+		</h:form>
+
+		<!-- Tabela de forncedores -->
+
+		<p:dataTable id="tabela-fornecedores" paginator="true" rows="5"
+			style="margin-top:8px" value="#{fornecedorBean.listarFornecedores()}"
+			var="f" paginatorPosition="bottom">
+
+			<p:column headerText="Nome Fantasia" width="340">
+				<p:outputLabel value="#{f.nomeFantasia}" />
+			</p:column>
+
+			<p:column headerText="Razão Social" width="340">
+				<p:outputLabel value="#{f.razaoSocial}" />
+			</p:column>
+
+			<p:column headerText="CNPJ">
+				<p:outputLabel value="#{f.cnpj}" />
+			</p:column>
+
+			<p:column headerText="Telefone">
+				<p:outputLabel value="#{f.telefone}" />
+			</p:column>
+
+			<p:column headerText="Ações" width="70" style="text-align:center">
+
+				<p:commandLink onclick="PF('wid-inclusao-edicao').show();"
+					update=":form-inclusao-edicao">
+					<i class="material-icons">mode_edit</i>
+					<f:setPropertyActionListener value="#{f}"
+						target="#{fornecedorBean.fornecedor}" />
+				</p:commandLink>
+
+				<p:commandLink onclick="PF('wid-exclusao').show();"
+					update=":form-exclusao">
+					<i class="material-icons red margin-left-10">delete_forever</i>
+					<f:setPropertyActionListener value="#{f}"
+						target="#{fornecedorBean.fornecedor}" />
+				</p:commandLink>
+			</p:column>
+
+		</p:dataTable>
+
+	</p:panel>
+
+	<!-- Diálogo de inclusão e edição -->
+
+	<p:dialog id="dlg-inclusao-edicao" header="Salvar Dados"
+		widgetVar="wid-inclusao-edicao" draggable="false" modal="true">
+
+		<h:form id="form-inclusao-edicao">
+			<h:panelGrid columns="2" cellspacing="8px">
+
+				<p:outputLabel value="Nome Fantasia:" />
+				<p:inputText styleClass="tam-400"
+					value="#{fornecedorBean.fornecedor.nomeFantasia}" />
+
+				<p:outputLabel value="Razão Social:" />
+				<p:inputText styleClass="tam-400"
+					value="#{fornecedorBean.fornecedor.razaoSocial}" />
+
+				<p:outputLabel value="Logradouro:" />
+				<p:inputText styleClass="tam-350"
+					value="#{fornecedorBean.fornecedor.logradouro}" />
+
+				<p:outputLabel value="Nº:" />
+				<p:inputText styleClass="tam-60"
+					value="#{fornecedorBean.fornecedor.número}" />
+
+				<p:outputLabel value="Bairro:" />
+				<p:inputText styleClass="tam-300"
+					value="#{fornecedorBean.fornecedor.bairro}" />
+
+				<p:outputLabel value="CNPJ:" />
+				<p:inputMask mask="99.999.999/9999-99"
+					value="#{fornecedorBean.fornecedor.cnpj}" />
+
+				<p:outputLabel value="Telefone:" />
+				<p:inputMask mask="(99)9999-9999"
+					value="#{fornecedorBean.fornecedor.telefone}" />
+			</h:panelGrid>
+
+			<p:separator />
+
+			<p:commandButton value="#{fornecedorBean.renomeaButao()}"
+				actionListener="#{fornecedorBean.salvarOuAtualizar}"
+				style="margin-top:5px"
+				oncomplete="PF('wid-inclusao-edicao').hide();"
+				update=":tabela-fornecedores" />
+		</h:form>
+
+	</p:dialog>
+
+	<!-- Diálogo de exclusão -->
+
+	<p:dialog widgetVar="wid-exclusao" showEffect="clip" hideEffect="clip"
+		draggable="false" modal="true">
+
+		<h:form id="form-exclusao">
+
+			<p:outputLabel value="Deseja realmente excluir o fornecedor?" />
+
+			<h:panelGrid columns="2">
+				<p:commandButton value="Sim"
+					actionListener="#{fornecedorBean.excluir}"
+					oncomplete="PF('wid-exclusao').hide();"
+					update=":tabela-fornecedores" />
+				<p:commandButton value="Não" />
+			</h:panelGrid>
+
+		</h:form>
+
+	</p:dialog>
+
+</h:body>
+</html>

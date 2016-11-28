@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Principal</title>
+	<h:outputStylesheet library="css" name="style.css" />
+	<h:outputStylesheet library="iconfont" name="material-icons.css"/>
+</h:head>
+<h:body>
+
+	<f:metadata>
+		<f:event type="preRenderView" listener="#{loginBean.validar}" />
+	</f:metadata>
+
+	<center>
+		<p:graphicImage library="img" name="brand-unicatolica.png"
+			style="margin:20px 0px 10px 0px" />
+	</center>
+
+
+	<h:form>
+		<p:menubar styleClass="menu-azul">
+
+			<p:submenu label="Home" icon="fa fa-home">
+				<p:menuitem value="Início" url="principal.xhtml" />
+				<p:menuitem value="Sair" action="#{loginBean.sair}" />
+			</p:submenu>
+
+			<p:submenu label="Cadastros" icon="fa fa-file-text-o">
+				<p:menuitem value="Usuários" url="consultar_usuarios.xhtml" />
+				<p:menuitem value="Clientes" url="consultar_clientes.xhtml" />
+				<p:menuitem value="Fornecedores" url="fornecedor.xhtml" />
+				<p:menuitem value="Produtos" url="consultar_produtos.xhtml" />
+			</p:submenu>
+
+			<p:submenu label="Movimentação" icon="fa fa-compress">
+				<p:menuitem styleClass="muda-cor" value="Entradas" url="entradas.xhtml" />
+				<p:menuitem value="Vendas" url="realizar_venda.xhtml" />
+				<p:separator />
+				<p:menuitem value="Consultar Vendas" url="consultar_venda.xhtml" />
+			</p:submenu>
+
+			<p:submenu label="Relatórios" icon="fa fa-print">
+				<p:menuitem value="Vendas" url="relatorio.xhtml" />
+			</p:submenu>
+
+
+		</p:menubar>
+	</h:form>
+</h:body>
+</html>

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Produtos</title>
+</h:head>
+<h:body>
+	<ui:include src="menu.xhtml" />
+
+	<p:messages closable="true" autoUpdate="true"
+		style="width:98%;margin:0 auto" />
+
+	<p:panel header="Lista de Produtos" id="panel"
+		style="margin:20px auto; width:95%;">
+
+		<f:facet name="actions">
+			<p:commandButton style="float:right;" value="Novo Produto"
+				icon="fa fa-plus" actionListener="#{produtoBean.novo}"
+				onclick="PF('wid-salvar-editar').show();"
+				update=":form-salvar-editar" />
+		</f:facet>
+
+		<h:form id="form-produtos">
+			<h:panelGrid columns="2">
+				<p:inputText styleClass="tam-300" placeholder="Pesquisar por descrição"
+					value="#{produtoBean.consulta}" />
+				<p:commandButton value="Pesquisar" icon="ui-icon-search"
+					actionListener="#{produtoBean.listarProdutos()}"
+					update=":form-produtos:tabela-produtos" />
+			</h:panelGrid>
+
+			<p:dataTable id="tabela-produtos" paginatorPosition="bottom"
+				value="#{produtoBean.listarProdutos()}" var="prod" rows="10"
+				paginator="true" reflow="true"
+				emptyMessage="Nenhum produto encontrado">
+
+				<p:column headerText="Descrição" width="460">
+					<p:outputLabel id="txt-font" value="#{prod.descricao}" />
+				</p:column>
+
+				<p:column headerText="Preço de Custo">
+					<p:outputLabel value="R$ " />
+					<p:outputLabel value="#{prod.precoCusto}">
+						<f:convertNumber minFractionDigits="2" />
+					</p:outputLabel>
+				</p:column>
+
+				<p:column headerText="Preço de Venda">
+					<p:outputLabel value="R$ " />
+					<p:outputLabel value="#{prod.precoVenda}">
+						<f:convertNumber minFractionDigits="2" />
+					</p:outputLabel>
+				</p:column>
+
+				<p:column headerText="Ações" width="70" style="text-align:center">
+
+					<p:commandLink onclick="PF('wid-salvar-editar').show();"
+						update=":form-salvar-editar">
+						<i class="material-icons">mode_edit</i>
+						<f:setPropertyActionListener value="#{prod}"
+							target="#{produtoBean.produto}" />
+					</p:commandLink>
+
+					<p:commandLink onclick="PF('wid-excluir').show();"
+						update=":form-excluir-produto">
+						<i class="material-icons margin-left-10 red">delete_forever</i>
+						<f:setPropertyActionListener value="#{prod}"
+							target="#{produtoBean.produto}" />
+					</p:commandLink>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</p:panel>
+
+	<!-- Diálogo de inclusão e edição -->
+
+	<p:dialog id="dlg-produto"
+		header="#{produtoBean.teste ? 'Salvar Produto' : 'Editar Dados'}"
+		showEffect="clip" hideEffect="clip" modal="true" draggable="false"
+		widgetVar="wid-salvar-editar">
+
+		<h:form id="form-salvar-editar">
+			<h:panelGrid columns="1">
+				<p:outputLabel value="Descrição" />
+				<p:inputText required="true"
+					requiredMessage="O campo descrição é obrigatório!" maxlength="200"
+					size="45" value="#{produtoBean.produto.descricao}" />
+
+				<p:outputLabel value="Unidade" />
+
+				<p:selectOneMenu value="#{produtoBean.produto.unidade}">
+					<f:selectItem itemValue="UN" itemLabel="Un" />
+					<f:selectItem itemValue="KG" itemLabel="Kg" />
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Código de Barras"></p:outputLabel>
+
+				<p:inputText value="#{produtoBean.produto.codigoBarras}" />
+
+				<h:panelGrid columns="2">
+
+					<p:outputLabel value="Preço de Custo" />
+
+					<p:outputLabel value="Preço de Venda" />
+
+					<p:inputText id="precoCusto"
+						value="#{produtoBean.produto.precoCusto}">
+						<f:convertNumber pattern="#,##0.00" />
+						<p:ajax update="precoCusto" process="precoCusto" event="change" />
+					</p:inputText>
+
+					<p:inputText id="precoVenda"
+						value="#{produtoBean.produto.precoVenda}">
+						<f:convertNumber pattern="#,##0.00" />
+						<p:ajax update="precoVenda" process="precoVenda" event="change" />
+					</p:inputText>
+
+				</h:panelGrid>
+
+				<p:spacer height="10px" />
+
+				<hr />
+
+				<p:spacer height="10px" />
+
+				<p:commandButton value="Salvar"
+					actionListener="#{produtoBean.salvar}"
+					oncomplete="PF('wid-salvar-editar').hide();"
+					update=":form-produtos:tabela-produtos" />
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+
+	<!-- Diálogo de exclusão -->
+
+	<p:dialog widgetVar="wid-excluir" showEffect="clip" hideEffect="clip"
+		header="Atenção" modal="true">
+		
+		<h:form id="form-excluir-produto">
+		
+			<p:outputLabel value="Deseja realmente excluir o produto?" />
+			
+			<h:panelGrid columns="2">
+			
+				<p:commandButton value="Sim" actionListener="#{produtoBean.excluir}"
+					oncomplete="PF('wid-excluir').hide();"
+					update=":form-produtos:tabela-produtos" />
+					
+				<p:commandButton value="Não" oncomplete="PF('wid-excluir').hide();" />
+
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+</h:body>
+</html>

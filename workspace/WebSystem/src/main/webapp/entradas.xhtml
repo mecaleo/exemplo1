@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Entradas</title>
+</h:head>
+<h:body>
+
+	<ui:include src="menu.xhtml" />
+
+	<p:messages autoUpdate="true" styleClass="tam-95p" />
+
+	<p:panel header="Entrada de Produtos" styleClass="tam-95p mg-top-20">
+		<center>
+			<p:inputText id="desc"
+				style="width:70%;height:40px;text-align:center;font-size:30px"
+				value="#{entradaBean.produtoEntrada.produto.descricao}"
+				disabled="true" />
+		</center>
+
+		<h:panelGrid columns="2" styleClass="mg-top-20 tam-95p">
+
+			<h:form id="form-entrada" onkeypress="return event.keyCode != 13">
+
+				<h:panelGrid columns="1" cellspacing="3">
+
+					<p:outputLabel value="Produto:" />
+					<p:inputText styleClass="tam-300"
+						value="#{entradaBean.produtoFiltro.codigoProduto}">
+						<p:ajax event="change" listener="#{entradaBean.buscarProduto}"
+							update=":form-entrada :desc" />
+					</p:inputText>
+
+					<p:outputLabel value="Quantidade:" />
+					<p:inputText id="quantidade"
+						value="#{entradaBean.produtoEntrada.qtdeEntrada}"
+						styleClass="tam-300">
+
+						<p:ajax event="keyup"
+							listener="#{entradaBean.calcularValorTotalDoItem}"
+							update=":form-entrada:vlr-total" />
+					</p:inputText>
+
+					<p:outputLabel value="Valor Unitário:" />
+					<p:inputText value="#{entradaBean.produtoEntrada.valorUnit}"
+						styleClass="tam-300">
+
+						<f:convertNumber pattern="#,##0.00" />
+
+						<p:ajax event="change"
+							listener="#{entradaBean.calcularValorTotalDoItem}"
+							update=":form-entrada" />
+					</p:inputText>
+
+					<p:outputLabel value="Valor Total:" />
+					<p:inputText id="vlr-total"
+						value="#{entradaBean.produtoEntrada.valorTotal}"
+						styleClass="tam-300">
+
+						<f:convertNumber pattern="#,##0.00" />
+					</p:inputText>
+
+					<p:commandButton value="Adicionar"
+						style="text-align:left"
+						styleClass="mg-top-5"
+						actionListener="#{entradaBean.addItem}"
+						update=":tabela-entrada :form-entrada :desc" 
+						icon="fa fa-plus"/>
+
+				</h:panelGrid>
+
+			</h:form>
+
+			<p:panel header="Itens da Entrada"
+				style="width:95%; margin-left:40px">
+
+				<p:dataTable id="tabela-entrada" value="#{entradaBean.listaItens}"
+					var="itens">
+
+					<p:column headerText="Produto" width="300">
+
+						<p:outputLabel value="#{itens.produto.descricao}" />
+
+					</p:column>
+
+					<p:column headerText="Quantidade">
+
+						<p:outputLabel value="#{itens.qtdeEntrada}" />
+
+					</p:column>
+
+					<p:column headerText="Valor Unit.">
+
+						<p:outputLabel value="#{itens.valorUnit}" />
+
+					</p:column>
+
+					<p:column headerText="Valor Total">
+
+						<p:outputLabel value="#{itens.valorTotal}" />
+
+					</p:column>
+
+				</p:dataTable>
+
+			</p:panel>
+
+		</h:panelGrid>
+	</p:panel>
+</h:body>
+</html>
