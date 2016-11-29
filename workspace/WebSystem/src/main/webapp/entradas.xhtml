@@ -16,6 +16,11 @@
 	<p:messages autoUpdate="true" styleClass="tam-95p" />
 
 	<p:panel header="Entrada de Produtos" styleClass="tam-95p mg-top-20">
+	
+		<f:facet name="actions">
+			<p:commandButton value="Finalizar" style="float:right"/>
+		</f:facet>
+		
 		<center>
 			<p:inputText id="desc"
 				style="width:70%;height:40px;text-align:center;font-size:30px"
@@ -30,7 +35,7 @@
 				<h:panelGrid columns="1" cellspacing="3">
 
 					<p:outputLabel value="Produto:" />
-					<p:inputText styleClass="tam-300"
+					<p:inputText styleClass="tam-300" id="produto"
 						value="#{entradaBean.produtoFiltro.codigoProduto}">
 						<p:ajax event="change" listener="#{entradaBean.buscarProduto}"
 							update=":form-entrada :desc" />
@@ -65,12 +70,10 @@
 						<f:convertNumber pattern="#,##0.00" />
 					</p:inputText>
 
-					<p:commandButton value="Adicionar"
-						style="text-align:left"
-						styleClass="mg-top-5"
-						actionListener="#{entradaBean.addItem}"
-						update=":tabela-entrada :form-entrada :desc" 
-						icon="fa fa-plus"/>
+					<p:commandButton value="Adicionar" style="text-align:left"
+						styleClass="mg-top-5" actionListener="#{entradaBean.addItem}"
+						update=":tabela-entrada :form-entrada :desc" icon="fa fa-plus" 
+						oncomplete="$(function(){PrimeFaces.focus('form-entrada:produto');});" />
 
 				</h:panelGrid>
 
@@ -80,7 +83,7 @@
 				style="width:95%; margin-left:40px">
 
 				<p:dataTable id="tabela-entrada" value="#{entradaBean.listaItens}"
-					var="itens">
+					var="itens" paginator="true" rows="7" paginatorPosition="bottom">
 
 					<p:column headerText="Produto" width="300">
 
@@ -90,21 +93,34 @@
 
 					<p:column headerText="Quantidade">
 
-						<p:outputLabel value="#{itens.qtdeEntrada}" />
+						<p:outputLabel value="#{itens.qtdeEntrada}" >
+							<f:convertNumber pattern="#,##0.000" />
+						</p:outputLabel>
 
 					</p:column>
 
 					<p:column headerText="Valor Unit.">
 
-						<p:outputLabel value="#{itens.valorUnit}" />
+						<p:outputLabel value="#{itens.valorUnit}" >
+							<f:convertNumber pattern="#,##0.00" />
+						</p:outputLabel>
 
 					</p:column>
 
 					<p:column headerText="Valor Total">
 
-						<p:outputLabel value="#{itens.valorTotal}" />
+						<p:outputLabel value="#{itens.valorTotal}" >
+							<f:convertNumber pattern="#,##0.00" />
+						</p:outputLabel>
 
 					</p:column>
+
+					<f:facet name="footer">
+						<p:outputLabel value="Total: R$ " />
+						<p:outputLabel value="#{entradaBean.subtotal()}">
+							<f:convertNumber pattern="#,##0.00" />
+						</p:outputLabel>
+					</f:facet>
 
 				</p:dataTable>
 

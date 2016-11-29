@@ -31,7 +31,7 @@
 		<h:form id="pesquisar">
 			<h:panelGrid columns="2">
 
-				<p:inputText style="width:350px;margin-right:5px"
+				<p:inputText styleClass="tam-300"
 					placeholder="Pesquisar por nome fantasia"
 					value="#{fornecedorBean.consulta}" />
 
@@ -66,14 +66,20 @@
 
 			<p:column headerText="Ações" width="70" style="text-align:center">
 
-				<p:commandLink onclick="PF('wid-inclusao-edicao').show();"
+				<p:tooltip for="editar" value="Editar" showEffect="clip"
+					hideEffect="clip" position="bottom" />
+
+				<p:tooltip for="excluir" value="Excluir" showEffect="clip"
+					hideEffect="clip" position="bottom" />
+
+				<p:commandLink id="editar" onclick="PF('wid-inclusao-edicao').show();"
 					update=":form-inclusao-edicao">
 					<i class="material-icons">mode_edit</i>
 					<f:setPropertyActionListener value="#{f}"
 						target="#{fornecedorBean.fornecedor}" />
 				</p:commandLink>
 
-				<p:commandLink onclick="PF('wid-exclusao').show();"
+				<p:commandLink id="excluir" onclick="PF('wid-exclusao').show();"
 					update=":form-exclusao">
 					<i class="material-icons red margin-left-10">delete_forever</i>
 					<f:setPropertyActionListener value="#{f}"

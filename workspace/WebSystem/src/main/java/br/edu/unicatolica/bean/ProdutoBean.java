@@ -28,16 +28,11 @@ public class ProdutoBean {
 		produtoFilter = new ProdutoFilter();
 	}
 
-	// @PostConstruct
-	// public void init(){
-	// novo();
-	// }
-
-	public boolean isTeste() {
-		if (produto.getCodigo() == null) {
-			return true;
+	public String acao() {
+		if(produto.getCodigo() != null) {
+			return "Atualizar";
 		} else {
-			return false;
+			return "Salvar";
 		}
 	}
 

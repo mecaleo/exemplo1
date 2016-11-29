@@ -26,6 +26,14 @@ public class ClienteBean {
 	public void novo() {
 		cliente = new Cliente();
 	}
+	
+	public String retornaAcao() {
+		if(cliente.getCodigo() != null) {
+			return "Atualizar";
+		} else {
+			return "Salvar";
+		}
+	}
 
 	public void salvar() {
 		try {

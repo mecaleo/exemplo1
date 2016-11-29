@@ -30,7 +30,7 @@
 			<h:panelGrid columns="3">
 				<p:inputText styleClass="tam-300" placeholder="Pesquisar por Nome"
 					value="#{clienteBean.consulta}" />
-				
+
 				<p:commandButton value="Pesquisar" update="tabela-clientes"
 					actionListener="#{clienteBean.listar()}" icon="ui-icon-search" />
 			</h:panelGrid>
@@ -58,7 +58,15 @@
 				</p:column>
 
 				<p:column headerText="Ações" width="70" style="text-align:center">
-					<p:commandLink onclick="PF('wid-salvar-editar').show();"
+
+					<p:tooltip for="editar" value="Editar" showEffect="clip"
+						hideEffect="clip" position="bottom" />
+
+					<p:tooltip for="excluir" value="Excluir" showEffect="clip"
+						hideEffect="clip" position="bottom" />
+
+					<p:commandLink id="editar"
+						onclick="PF('wid-salvar-editar').show();"
 						update=":form-salvar-editar">
 
 						<i class="material-icons">mode_edit</i>
@@ -67,7 +75,7 @@
 							target="#{clienteBean.cliente}" />
 					</p:commandLink>
 
-					<p:commandLink onclick="PF('wid-exclusao').show();"
+					<p:commandLink id="excluir" onclick="PF('wid-exclusao').show();"
 						update=":form-exclusao">
 						<i class="material-icons margin-left-10 red">delete_forever</i>
 						<f:setPropertyActionListener value="#{c}"
@@ -113,8 +121,8 @@
 
 			<p:separator />
 
-			<p:commandButton value="Salvar" style="margin-top:10px"
-				actionListener="#{clienteBean.salvar}"
+			<p:commandButton value="#{clienteBean.retornaAcao()}"
+				style="margin-top:10px" actionListener="#{clienteBean.salvar}"
 				oncomplete="PF('wid-salvar-editar').hide();"
 				update=":form-con-cliente:tabela-clientes" />
 		</h:form>
@@ -122,7 +130,7 @@
 
 	<!-- Diálogo de exclusão -->
 
-	<p:dialog header="Excluir Usuário" widgetVar="wid-exclusao"
+	<p:dialog header="Excluir Cliente" widgetVar="wid-exclusao"
 		showEffect="clip" hideEffect="clip" modal="true">
 		<h:form id="form-exclusao">
 			<h:panelGrid>
@@ -130,7 +138,7 @@
 					value="Deseja realmente excluir o cliente '#{clienteBean.cliente.nome}'?" />
 
 			</h:panelGrid>
-			
+
 			<h:panelGrid columns="2">
 				<p:commandButton value="Sim" actionListener="#{clienteBean.excluir}"
 					oncomplete="PF('wid-exclusao').hide();"

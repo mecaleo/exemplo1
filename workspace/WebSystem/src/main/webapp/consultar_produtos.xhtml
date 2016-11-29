@@ -27,7 +27,8 @@
 
 		<h:form id="form-produtos">
 			<h:panelGrid columns="2">
-				<p:inputText styleClass="tam-300" placeholder="Pesquisar por descrição"
+				<p:inputText styleClass="tam-300"
+					placeholder="Pesquisar por descrição"
 					value="#{produtoBean.consulta}" />
 				<p:commandButton value="Pesquisar" icon="ui-icon-search"
 					actionListener="#{produtoBean.listarProdutos()}"
@@ -58,15 +59,21 @@
 				</p:column>
 
 				<p:column headerText="Ações" width="70" style="text-align:center">
+				
+					<p:tooltip for="editar" value="Editar" showEffect="clip"
+						hideEffect="clip" position="bottom" />
 
-					<p:commandLink onclick="PF('wid-salvar-editar').show();"
+					<p:tooltip for="excluir" value="Excluir" showEffect="clip"
+						hideEffect="clip" position="bottom" />
+						
+					<p:commandLink id="editar" onclick="PF('wid-salvar-editar').show();"
 						update=":form-salvar-editar">
 						<i class="material-icons">mode_edit</i>
 						<f:setPropertyActionListener value="#{prod}"
 							target="#{produtoBean.produto}" />
 					</p:commandLink>
 
-					<p:commandLink onclick="PF('wid-excluir').show();"
+					<p:commandLink id="excluir" onclick="PF('wid-excluir').show();"
 						update=":form-excluir-produto">
 						<i class="material-icons margin-left-10 red">delete_forever</i>
 						<f:setPropertyActionListener value="#{prod}"
@@ -79,9 +86,8 @@
 
 	<!-- Diálogo de inclusão e edição -->
 
-	<p:dialog id="dlg-produto"
-		header="#{produtoBean.teste ? 'Salvar Produto' : 'Editar Dados'}"
-		showEffect="clip" hideEffect="clip" modal="true" draggable="false"
+	<p:dialog id="dlg-produto" header="Salvar Dados" showEffect="clip"
+		hideEffect="clip" modal="true" draggable="false"
 		widgetVar="wid-salvar-editar">
 
 		<h:form id="form-salvar-editar">
@@ -122,13 +128,9 @@
 
 				</h:panelGrid>
 
-				<p:spacer height="10px" />
+				<p:separator />
 
-				<hr />
-
-				<p:spacer height="10px" />
-
-				<p:commandButton value="Salvar"
+				<p:commandButton value="#{produtoBean.acao()}"
 					actionListener="#{produtoBean.salvar}"
 					oncomplete="PF('wid-salvar-editar').hide();"
 					update=":form-produtos:tabela-produtos" />
@@ -140,17 +142,17 @@
 
 	<p:dialog widgetVar="wid-excluir" showEffect="clip" hideEffect="clip"
 		header="Atenção" modal="true">
-		
+
 		<h:form id="form-excluir-produto">
-		
+
 			<p:outputLabel value="Deseja realmente excluir o produto?" />
-			
+
 			<h:panelGrid columns="2">
-			
+
 				<p:commandButton value="Sim" actionListener="#{produtoBean.excluir}"
 					oncomplete="PF('wid-excluir').hide();"
 					update=":form-produtos:tabela-produtos" />
-					
+
 				<p:commandButton value="Não" oncomplete="PF('wid-excluir').hide();" />
 
 			</h:panelGrid>

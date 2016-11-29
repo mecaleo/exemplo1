@@ -66,6 +66,14 @@ public class EntradaBean {
 			produtoFiltro = new ProdutoFilter();
 		}
 	}
+	
+	public Double subtotal() {
+		double total = 0.00;
+		for(ProdutoEntrada pe : listaItens) {
+			total += pe.getValorTotal();
+		}
+		return total;
+	}
 
 	public EntradaFilter getFiltro() {
 		return filtro;

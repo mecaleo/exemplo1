@@ -7,6 +7,9 @@
 a {
 	text-decoration: none;
 }
+#teste{
+	color:#FFF !important;
+}
 
 .btn-novo {
 	width: 25px;
@@ -159,6 +162,7 @@ body {
 
 .menu-azul {
 	background-color: rgba(35, 153, 229, 0.9) !important;
+	
 }
 
 .menu-font-color a {
