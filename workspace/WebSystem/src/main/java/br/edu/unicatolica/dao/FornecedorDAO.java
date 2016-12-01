@@ -85,4 +85,11 @@ public class FornecedorDAO {
 		}
 		return null;
 	}
+	
+	public Fornecedor getFornecedor(Long codigo) {
+		em = JPAUtil.createEntityManager();
+		Fornecedor f = em.find(Fornecedor.class, codigo);
+		em.close();
+		return f;
+	}
 }

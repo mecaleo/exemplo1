@@ -11,6 +11,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import br.edu.unicatolica.entity.Produto;
+import br.edu.unicatolica.entity.ProdutoEntrada;
 import br.edu.unicatolica.entity.ProdutoVenda;
 import br.edu.unicatolica.jpa.util.JPAUtil;
 import br.edu.unicatolica.jsf.util.ProdutoFilter;
@@ -89,6 +90,21 @@ public class ProdutoDAO {
 		try {
 			Produto produto = em.find(Produto.class, p.getProduto().getCodigo());
 			produto.setEstoque(produto.getEstoque() - p.getQtde());
+			em.getTransaction().begin();
+			em.merge(produto);
+			em.getTransaction().commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			em.close();
+		}
+	}
+	
+	public void acrescentarEstoque(ProdutoEntrada p) {
+		em = JPAUtil.createEntityManager();
+		try {
+			Produto produto = em.find(Produto.class, p.getProduto().getCodigo());
+			produto.setEstoque(produto.getEstoque() + p.getQtdeEntrada());
 			em.getTransaction().begin();
 			em.merge(produto);
 			em.getTransaction().commit();

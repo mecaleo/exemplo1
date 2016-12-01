@@ -16,6 +16,7 @@ public class ProdutoEntrada implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Long codigo;
 	private Produto produto;
+	private Entrada entrada;
 	private Double qtdeEntrada;
 	private Double valorUnit;
 	private Double valorTotal;
@@ -65,5 +66,16 @@ public class ProdutoEntrada implements Serializable {
 	public void setValorTotal(Double valorTotal) {
 		this.valorTotal = valorTotal;
 	}
+
+	@ManyToOne
+	public Entrada getEntrada() {
+		return entrada;
+	}
+
+	public void setEntrada(Entrada entrada) {
+		this.entrada = entrada;
+	}
+	
+	
 
 }

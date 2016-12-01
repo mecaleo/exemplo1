@@ -13,15 +13,20 @@
 
 	<ui:include src="menu.xhtml" />
 
-	<p:messages autoUpdate="true" styleClass="tam-95p" />
+	<p:messages autoUpdate="true" styleClass="tam-95p" closable="true" />
 
 	<p:panel header="Entrada de Produtos" styleClass="tam-95p mg-top-20">
-	
+
+
 		<f:facet name="actions">
-			<p:commandButton value="Finalizar" style="float:right"/>
+			<p:commandButton value="Finalizar" style="float:right"
+				onclick="PF('wid-finalizar').show();" update=":form-finalizar"
+				icon="fa fa-save" />
 		</f:facet>
-		
+
+
 		<center>
+
 			<p:inputText id="desc"
 				style="width:70%;height:40px;text-align:center;font-size:30px"
 				value="#{entradaBean.produtoEntrada.produto.descricao}"
@@ -72,7 +77,7 @@
 
 					<p:commandButton value="Adicionar" style="text-align:left"
 						styleClass="mg-top-5" actionListener="#{entradaBean.addItem}"
-						update=":tabela-entrada :form-entrada :desc" icon="fa fa-plus" 
+						update=":tabela-entrada :form-entrada :desc" icon="fa fa-plus"
 						oncomplete="$(function(){PrimeFaces.focus('form-entrada:produto');});" />
 
 				</h:panelGrid>
@@ -93,7 +98,7 @@
 
 					<p:column headerText="Quantidade">
 
-						<p:outputLabel value="#{itens.qtdeEntrada}" >
+						<p:outputLabel value="#{itens.qtdeEntrada}">
 							<f:convertNumber pattern="#,##0.000" />
 						</p:outputLabel>
 
@@ -101,7 +106,7 @@
 
 					<p:column headerText="Valor Unit.">
 
-						<p:outputLabel value="#{itens.valorUnit}" >
+						<p:outputLabel value="#{itens.valorUnit}">
 							<f:convertNumber pattern="#,##0.00" />
 						</p:outputLabel>
 
@@ -109,9 +114,23 @@
 
 					<p:column headerText="Valor Total">
 
-						<p:outputLabel value="#{itens.valorTotal}" >
+						<p:outputLabel value="#{itens.valorTotal}">
 							<f:convertNumber pattern="#,##0.00" />
 						</p:outputLabel>
+
+					</p:column>
+
+					<p:column headerText="..." width="30" style="text-align:center">
+
+						<p:commandLink update=":tabela-entrada"
+							actionListener="#{entradaBean.removerItem}">
+
+							<f:setPropertyActionListener value="#{itens}"
+								target="#{entradaBean.produtoEntrada}" />
+
+							<i class="material-icons red">remove_circle</i>
+
+						</p:commandLink>
 
 					</p:column>
 
@@ -128,5 +147,50 @@
 
 		</h:panelGrid>
 	</p:panel>
+
+	<!-- Diálogo de finalização -->
+
+	<p:dialog header="Finalizar Entrada" widgetVar="wid-finalizar"
+		showEffect="clip" hideEffect="clip" modal="true" width="500">
+
+		<h:form id="form-finalizar">
+			<h:panelGrid columns="1" cellspacing="5">
+
+				<p:outputLabel value="Fornecedor: " />
+				<p:selectOneMenu styleClass="tam-400"
+					value="#{entradaBean.entrada.fornecedor}">
+					<f:selectItem itemLabel="Selecione um" />
+					<f:selectItems value="#{fornecedorBean.listarFornecedores()}"
+						var="fornecedor" itemValue="#{fornecedor}"
+						itemLabel="#{fornecedor.nomeFantasia}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Forma de Pagamento: " />
+				<p:selectOneMenu styleClass="tam-300"
+					value="#{entradaBean.entrada.formaDePagamento}">
+					<f:selectItem itemLabel="Selecione uma" />
+					<f:selectItem itemValue="Dinheiro" itemLabel="Dinheiro" />
+					<f:selectItem itemValue="Boleto" itemLabel="Boleto" />
+					<f:selectItem itemValue="CC" itemLabel="Cartão Crédito" />
+					<f:selectItem itemValue="CD" itemLabel="Cartão Débito" />
+					<f:selectItem itemValue="Cheque" itemLabel="Cheque" />
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Nº Nota Fiscal: " />
+				<p:inputText styleClass="tam-200"
+					value="#{entradaBean.entrada.notafiscal}" />
+
+				<p:separator />
+
+				<p:commandButton value="Confirmar"
+					actionListener="#{entradaBean.finalizar}"
+					oncomplete="PF('wid-finalizar').hide();"
+					update=":tabela-entrada :form-finalizar" icon="fa fa-check" />
+
+			</h:panelGrid>
+
+
+		</h:form>
+	</p:dialog>
 </h:body>
 </html>
