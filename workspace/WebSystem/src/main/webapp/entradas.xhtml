@@ -122,16 +122,19 @@
 
 					<p:column headerText="..." width="30" style="text-align:center">
 
-						<p:commandLink update=":tabela-entrada"
-							actionListener="#{entradaBean.removerItem}">
+						<h:form>
+							<p:remoteCommand name="atu" update=":tabela-entrada"
+								actionListener="#{entradaBean.removerItem}" />
 
-							<f:setPropertyActionListener value="#{itens}"
-								target="#{entradaBean.produtoEntrada}" />
+							<p:commandLink oncomplete="atu()">
 
-							<i class="material-icons red">remove_circle</i>
+								<f:setPropertyActionListener value="#{itens}"
+									target="#{entradaBean.produtoEntrada}" />
 
-						</p:commandLink>
+								<i class="material-icons red">remove_circle</i>
 
+							</p:commandLink>
+						</h:form>
 					</p:column>
 
 					<f:facet name="footer">

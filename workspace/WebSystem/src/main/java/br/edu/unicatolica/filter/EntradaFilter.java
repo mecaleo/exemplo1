@@ -2,12 +2,15 @@ package br.edu.unicatolica.filter;
 
 import java.util.Date;
 
+import br.edu.unicatolica.entity.Fornecedor;
+
 public class EntradaFilter {
 
 	private Long codigo;
 	private String descricao;
 	private Date dataInicial;
 	private Date dataFinal;
+	private Fornecedor fornecedor;
 
 	public Long getCodigo() {
 		return codigo;
@@ -41,6 +44,15 @@ public class EntradaFilter {
 		this.dataFinal = dataFinal;
 	}
 
+	
+	public Fornecedor getFornecedor() {
+		return fornecedor;
+	}
+
+	public void setFornecedor(Fornecedor fornecedor) {
+		this.fornecedor = fornecedor;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -65,7 +77,5 @@ public class EntradaFilter {
 			return false;
 		return true;
 	}
-	
-	
 
 }

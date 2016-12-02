@@ -72,6 +72,7 @@ public class EntradaBean {
 	public void removerItem() {
 		if(listaItens.size() != 0) {
 			listaItens.remove(produtoEntrada);
+			produtoEntrada = new ProdutoEntrada();
 		}
 	}
 	

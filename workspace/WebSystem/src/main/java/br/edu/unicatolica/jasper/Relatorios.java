@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
 
+import br.edu.unicatolica.filter.ProdutoVendaFilter;
 import br.edu.unicatolica.filter.VendaFilter;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -49,7 +50,7 @@ public class Relatorios {
 			response.reset();
 			response.setContentType("application/pdf");
 			response.setContentLength(baos.size());
-			response.setHeader("Content-disposition", "inline; filename=relatorio.pdf");
+			response.setHeader("Content-disposition", "inline; filename=RELATORIO_DE_VENDA.pdf");
 			response.getOutputStream().write(baos.toByteArray());
 			response.getOutputStream().flush();
 			response.getOutputStream().close();
@@ -58,16 +59,70 @@ public class Relatorios {
 			fecharConexao();
 
 		} catch (Exception ex) {
-			Logger.getLogger(Relatorios.class.getName()).log(Level.SEVERE, null, ex);
+			ex.printStackTrace();
 		} 
 	}
+	
+	public void gerarRelatorioProdutosMaisVendidos(ProdutoVendaFilter filtro) {
+		stream = this.getClass().getResourceAsStream("/report/mais_vendidos.jasper");
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("dataI", filtro.getDataInicial());
+		params.put("dataF", filtro.getDataFinal());
+		baos = new ByteArrayOutputStream();
+
+		try {
+			JasperReport report = (JasperReport) JRLoader.loadObject(stream);
+			JasperPrint print = JasperFillManager.fillReport(report, params, getConexao());
+			JasperExportManager.exportReportToPdfStream(print, baos);
+
+			response.reset();
+			response.setContentType("application/pdf");
+			response.setContentLength(baos.size());
+			response.setHeader("Content-disposition", "inline; filename=PRODUTOS_MAIS_VENDIDOS.pdf");
+			response.getOutputStream().write(baos.toByteArray());
+			response.getOutputStream().flush();
+			response.getOutputStream().close();
+
+			context.responseComplete();
+			fecharConexao();
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} 
+	}
+	
+	public void gerarRelatorioDeInventario() {
+		stream = this.getClass().getResourceAsStream("/report/inventario.jasper");
+		Map<String, Object> params = new HashMap<String, Object>();
+		baos = new ByteArrayOutputStream();
+
+		try {
+			JasperReport report = (JasperReport) JRLoader.loadObject(stream);
+			JasperPrint print = JasperFillManager.fillReport(report, params, getConexao());
+			JasperExportManager.exportReportToPdfStream(print, baos);
+
+			response.reset();
+			response.setContentType("application/pdf");
+			response.setContentLength(baos.size());
+			response.setHeader("Content-disposition", "inline; filename=INVENTARIO.pdf");
+			response.getOutputStream().write(baos.toByteArray());
+			response.getOutputStream().flush();
+			response.getOutputStream().close();
+
+			context.responseComplete();
+			fecharConexao();
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} 
+	}
+	
 
 	public Connection getConexao() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/webvendas", "root", "developer");
 			return con;
-
 		} catch (SQLException ex) {
 			Logger.getLogger(Relatorios.class.getName()).log(Level.SEVERE, null, ex);
 		} catch (ClassNotFoundException ex) {
