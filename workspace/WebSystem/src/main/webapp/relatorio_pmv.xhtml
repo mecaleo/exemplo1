@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Produtos Mais Vendidos</title>
+</h:head>
+<h:body>
+
+	<ui:include src="menu.xhtml" />
+
+	<p:panel header="PRODUTOS MAIS VENDIDOS" styleClass="tam-350 center">
+
+		<h:form>
+
+			<h:panelGrid columns="2" cellspacing="5">
+
+				<p:outputLabel value="Data Inicial" />
+				<p:calendar pattern="dd/MM/yyyy"
+					value="#{relatoriosBean.produtoVendaFiltro.dataInicial}" />
+
+				<p:outputLabel value="Data Final" />
+				<p:calendar pattern="dd/MM/yyyy"
+					value="#{relatoriosBean.produtoVendaFiltro.dataFinal}" />
+
+				<p:outputLabel value="" />
+				<p:commandButton value="Imprimir" icon="fa fa-print"
+					style="float:right"
+					actionListener="#{relatoriosBean.geraRelatorioProdutosMaisVendidos}"
+					ajax="false" onclick="this.form.target='_blank'" />
+
+			</h:panelGrid>
+
+		</h:form>
+
+	</p:panel>
+
+</h:body>
+</html>

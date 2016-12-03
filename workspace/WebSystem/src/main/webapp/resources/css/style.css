@@ -175,6 +175,9 @@ body {
 .block {
 	display:block;
 }
+.center {
+	margin: 100px auto !important;
+}
 
 
 
