@@ -37,6 +37,14 @@ public class VendaBean {
 		cliente = new Cliente();
 		status = false;
 	}
+	
+	public void iniciarNovaVenda() {
+		novo();
+		produtoFilter = new ProdutoFilter();
+		m = new MessagesView();
+		cliente = new Cliente();
+		status = false;
+	}
 
 	public void novo() {
 		venda = new Venda();
@@ -57,6 +65,13 @@ public class VendaBean {
 			listaItens.add(produtoVenda);
 			produtoVenda = new ProdutoVenda();
 			produtoFilter = new ProdutoFilter();
+		}
+	}
+	
+	public void removerItem() {
+		if(listaItens.size() != 0) {
+			listaItens.remove(produtoVenda);
+			produtoVenda = new ProdutoVenda();
 		}
 	}
 

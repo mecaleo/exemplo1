@@ -75,9 +75,6 @@
 			</p:column>
 
 			<p:column headerText="Ações" width="90" style="text-align:center">
-				<p:commandLink>
-					<i class="material-icons red md-30">clear</i>
-				</p:commandLink>
 
 				<p:commandLink onclick="PF('wid-itens').show();"
 					update=":tabela-itens">
@@ -85,20 +82,25 @@
 					<f:setPropertyActionListener value="#{entrada}"
 						target="#{consultaEntradaBean.entrada}" />
 				</p:commandLink>
+
+				<p:commandLink>
+					<i class="material-icons red md-30">clear</i>
+				</p:commandLink>
 			</p:column>
 
 		</p:dataTable>
 
 	</p:panel>
 
-	<p:dialog widgetVar="wid-itens" height="400" width="1000"
-		header="Itens da Entrada" showEffect="clip" hideEffect="clip" modal="true"
-		resizable="false">
+	<p:dialog widgetVar="wid-itens" height="420" width="1000"
+		header="Itens da Entrada" showEffect="clip" hideEffect="clip"
+		modal="true" resizable="false">
 
 		<p:outputLabel value="#{consultaEntradaBean.entrada.codigo}" />
 
-		<p:dataTable id="tabela-itens" value="#{consultaEntradaBean.listarItensEntrada()}"
-			var="item">
+		<p:dataTable id="tabela-itens"
+			value="#{consultaEntradaBean.listarItensEntrada()}" var="item"
+			paginator="true" rows="14" paginatorPosition="bottom">
 
 			<p:column headerText="Produto" width="500">
 				<p:outputLabel value="#{item.produto.descricao}" />

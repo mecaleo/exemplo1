@@ -46,7 +46,7 @@ public class LoginBean {
 	public void validar() {
 		if(usuario.getCodigo() == null) {
 			try {
-				FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+				FacesContext.getCurrentInstance().getExternalContext().redirect("403.xhtml");
 			} catch (Exception e) {
 				// TODO: handle exception
 			}

@@ -15,6 +15,8 @@ public class ClienteBO {
 	}
 	
 	public void salvar(Cliente c) {
+		Cliente temp = c;
+		c.setNome(temp.getNome().toUpperCase());
 		ClienteDAO.getInstance().salvar(c);
 	}
 	

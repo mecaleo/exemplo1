@@ -21,7 +21,8 @@
 		<f:facet name="actions">
 
 			<p:commandButton style="float:right" value="Nova Venda"
-				icon="fa fa-plus" />
+				icon="fa fa-plus" actionListener="#{vendaBean.iniciarNovaVenda}"
+				update=":tabela-itens :form-venda :finalizar" />
 
 		</f:facet>
 
@@ -65,10 +66,11 @@
 
 			</h:panelGrid>
 
-			<p:inputText id="descricao"
-				value="#{vendaBean.produtoVenda.produto.descricao}" size="80"
-				disabled="true" />
-
+			<h:panelGrid columns="1">
+				<p:inputText style="height:40px; font-size:24px; width:900px"
+					id="descricao" value="#{vendaBean.produtoVenda.produto.descricao}"
+					disabled="true" />
+			</h:panelGrid>
 		</h:form>
 
 		<p:spacer height="10px" />
@@ -76,7 +78,7 @@
 		<p:dataTable id="tabela-itens" emptyMessage="Nenhum produto lançado!"
 			value="#{vendaBean.listaItens}" var="item">
 
-			<p:column headerText="Produto" width="70%">
+			<p:column headerText="Produto" width="50%">
 				<p:outputLabel value="#{item.produto.descricao}" />
 			</p:column>
 
@@ -96,6 +98,22 @@
 				<p:outputLabel value="#{item.vlrTotal}">
 					<f:convertNumber pattern="#,##0.00" />
 				</p:outputLabel>
+			</p:column>
+
+			<p:column headerText="..." width="30" style="text-align:center">
+				<h:form>
+					<p:remoteCommand name="atu" update=":tabela-itens"
+						actionListener="#{vendaBean.removerItem}" />
+
+					<p:commandLink oncomplete="atu()">
+
+						<f:setPropertyActionListener value="#{item}"
+							target="#{vendaBean.produtoVenda}" />
+
+						<i class="material-icons red">remove_circle</i>
+
+					</p:commandLink>
+				</h:form>
 			</p:column>
 
 			<f:facet name="footer">
@@ -119,14 +137,14 @@
 
 	<p:dialog width="35%" widgetVar="wid-finalizar"
 		header="Finalizar Venda" closable="true" draggable="false"
-		showEffect="clip" modal="true" resizable="false">
+		showEffect="clip" hideEffect="clip" modal="true" resizable="false">
 
 		<h:form id="form-finalizar">
 
 			<h:panelGrid columns="1">
 
 				<p:outputLabel value="Cliente" />
-				<p:selectOneMenu id="combo-cliente"
+				<p:selectOneMenu styleClass="tam-400" id="combo-cliente"
 					value="#{vendaBean.venda.cliente}">
 					<f:selectItem itemLabel="Selecione um" />
 					<f:selectItems value="#{vendaBean.listaClientes}" var="cliente"
@@ -134,7 +152,8 @@
 				</p:selectOneMenu>
 
 				<p:outputLabel value="Forma de Pagamento" />
-				<p:selectOneMenu value="#{vendaBean.venda.formaPagamento}">
+				<p:selectOneMenu styleClass="tam-300"
+					value="#{vendaBean.venda.formaPagamento}">
 					<f:selectItem itemValue="Dinheiro" itemLabel="Dinheiro" />
 					<f:selectItem itemValue="CC" itemLabel="Cartão Crédito" />
 					<f:selectItem itemValue="CD" itemLabel="Cartão Débito" />
@@ -166,7 +185,7 @@
 	<!-- Diálogo de cadastrar o cliente -->
 
 	<p:dialog header="Salvar Dados" id="dlg-salvar-editar"
-		widgetVar="wid-novo-cliente" showEffect="clip" hideEffect="explode"
+		widgetVar="wid-novo-cliente" showEffect="clip" hideEffect="clip"
 		modal="true" draggable="false">
 		<h:form id="form-salvar-editar">
 			<h:panelGrid columns="1" cellpadding="0">

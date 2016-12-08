@@ -23,6 +23,8 @@ public class FornecedorBO {
 		if (forn.getTelefone().length() != 13) {
 			throw new TelefoneException("Telefone inválido!");
 		}
+		Fornecedor temp = forn;
+		forn.setNomeFantasia(temp.getNomeFantasia().toUpperCase());
 		FornecedorDAO.getInstance().salvar(forn);
 	}
 
